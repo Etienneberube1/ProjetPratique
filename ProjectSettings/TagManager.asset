@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - IceOrb
+  - Heal
+  - Bullet
+  - PoisonOrb
+  - BaseOrb
+  - FireOrb
+  - Ground
+  - Enemy
+  - MeleeEnemy
+  - Crystal
   layers:
   - Default
   - TransparentFX

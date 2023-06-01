@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public event Action<int , int> OnAmmoChange;
     public event Action<int> OnHPChange;
     public event Action<bool> OnPlayerDeath;
+    public event Action<int> OnCrystalChange;
 
     private void Awake()
     {
@@ -34,5 +35,9 @@ public class UIManager : MonoBehaviour
     public void IsPlayerDead(bool IsPlayerDead)
     {
         OnPlayerDeath?.Invoke(IsPlayerDead);
+    }
+    public void CrystalChange(int CrystalAmount)
+    {
+        OnCrystalChange?.Invoke(CrystalAmount);
     }
 }

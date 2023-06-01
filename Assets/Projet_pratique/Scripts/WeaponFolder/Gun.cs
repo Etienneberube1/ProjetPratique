@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +7,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     [SerializeField] public Transform FirePoint;
+    [SerializeField] private GameObject FirePointPos;
     [SerializeField] public GameObject BulletPrefab;
     [SerializeField] public GameObject WeaponPrefab;
     [SerializeField] public float m_BulletForce = 8f;
@@ -15,10 +16,12 @@ public class Gun : MonoBehaviour
     private protected int CurrentAmmo;
     private protected bool CanShoot = true;
     private protected Animator m_Animator;
+    private Player player;
     public void Start()
     {
         CurrentAmmo = MaxAmmo;
         m_Animator = GetComponent<Animator>();
+        player = GetComponentInParent<Player>();
     }
     public void Update()
     {
@@ -28,7 +31,6 @@ public class Gun : MonoBehaviour
             StartCoroutine(FireRateCoroutine());
         }
     }
-
     IEnumerator FireRateCoroutine()
     {
         Shoot();
@@ -38,13 +40,16 @@ public class Gun : MonoBehaviour
     }
     public virtual void Shoot()
     {
-        m_Animator.SetTrigger("Shoot");
-        GameObject Bullet =  Instantiate(BulletPrefab, FirePoint.transform.position, FirePoint.rotation);
-        Rigidbody2D m_Rigidbody2D = Bullet.GetComponent<Rigidbody2D>();
-        m_Rigidbody2D.AddForce(FirePoint.right * m_BulletForce, ForceMode2D.Impulse);
-        UIBulletManager();
+        if (CanShoot == true)
+        {
+            m_Animator.SetTrigger("Shoot");
+            GameObject Bullet = Instantiate(BulletPrefab, FirePoint.transform.position, FirePoint.transform.rotation);
+            Rigidbody2D m_Rigidbody2D = Bullet.GetComponent<Rigidbody2D>();
+            m_Rigidbody2D.AddForce(FirePoint.right * m_BulletForce, ForceMode2D.Impulse);
+            UIBulletManager();
+            player.KnockBack();
+        }
     }
-
     public void UIBulletManager()
     {
         CurrentAmmo--;
@@ -54,7 +59,7 @@ public class Gun : MonoBehaviour
     {
         if (HitInfo.gameObject.tag == "Player")
         {
-            Player player = HitInfo.GetComponent<Player>();
+            player = HitInfo.GetComponent<Player>();
             player.OnChangeGun(WeaponPrefab);
             Destroy(gameObject, 0.2f);
             GetComponent<Gun>().enabled = true;

@@ -99,11 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FirePoint: {fileID: 4353430294520226925}
-  BulletPrefab: {fileID: 3095290115454661168, guid: f1bd60ec97172834783f2df49f2b7f73,
-    type: 3}
+  BulletPrefab: {fileID: 3095290115454661168, guid: f1bd60ec97172834783f2df49f2b7f73, type: 3}
   WeaponPrefab: {fileID: 2403455929033969300}
-  m_BulletForce: 8
-  m_FireRate: 0.4
+  m_BulletForce: 10
+  m_FireRate: 0.3
   MaxAmmo: 100
 --- !u!95 &5303684162207401442
 Animator:

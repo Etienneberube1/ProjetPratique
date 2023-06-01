@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform m_Hand;
     [SerializeField] private Transform m_WeaponSpawnOffset;
     [HideInInspector]public int m_StartingPlayerHP;
+    [SerializeField] private int m_CrystalCollected = 0;
+    [SerializeField] private int m_KnockBackForce = 2;
 
     private float m_HorizontalMouvement;
     private Rigidbody2D m_Body2D;
@@ -80,6 +82,11 @@ public class Player : MonoBehaviour
             UIManager.Instance.LifeChange(m_PlayerHP);
         }
     }
+    public void CrystalAdded(int CrystalAmount)
+    {
+        m_CrystalCollected += CrystalAmount;
+        UIManager.Instance.CrystalChange(CrystalAmount);
+    }
     public void TakeDamage(int DMG)
     {
         m_PlayerHP -= DMG;
@@ -106,8 +113,11 @@ public class Player : MonoBehaviour
 
         m_HorizontalMouvement = Input.GetAxis("Horizontal");
         Vector2 velocity = m_Body2D.velocity;
-        velocity.x = m_HorizontalMouvement * m_Speed;
-        m_Body2D.velocity = velocity;
+        if (m_HorizontalMouvement > 0 || m_HorizontalMouvement < 0)
+        {
+            velocity.x = m_HorizontalMouvement * m_Speed;
+            m_Body2D.velocity = velocity;
+        }
 
         if (m_HorizontalMouvement > 0 || m_HorizontalMouvement < 0) {
             m_playerIsMoving = true;
@@ -124,7 +134,6 @@ public class Player : MonoBehaviour
             m_playerIsMoving = false;
             m_Grounded = false;
             m_IsJumping = true;
-            m_JumptimeCounter = m_JumpTime;
             m_Body2D.AddForce(Vector2.up * m_JumpForce, ForceMode2D.Impulse);
             m_Animator.SetTrigger("jump");
         }
@@ -238,6 +247,18 @@ public class Player : MonoBehaviour
         GameObject NewWeapon = Instantiate(WeaponType, m_WeaponSpawnOffset.transform.position, m_Hand.rotation);
         NewWeapon.transform.parent = m_Hand;
         m_WeaponPrefab = NewWeapon;
+    }
+
+    public void KnockBack()
+    {
+        if (m_SpriteRenderer.flipX == true)
+        {
+            m_Body2D.AddForce(Vector2.right * m_KnockBackForce, ForceMode2D.Impulse);
+        }
+        else if(m_SpriteRenderer.flipX == false)
+        {
+            m_Body2D.AddForce(Vector2.left * m_KnockBackForce, ForceMode2D.Impulse);
+        }
     }
     //===========================================================================
 }

@@ -30,7 +30,7 @@ public class MeleeEnemy : MonoBehaviour
     private void Start()
     {
         m_StartingHP = m_EnemyHP;
-        m_HealthBar.SetHealth(m_EnemyHP, m_StartingHP);
+        //m_HealthBar.SetHealth(m_EnemyHP, m_StartingHP);
         m_RigidBody2D = GetComponent<Rigidbody2D>();
         //m_SpawnManagerScript = GetComponent<SpawnManager>();
         m_Animator = GetComponent<Animator>();
@@ -39,10 +39,14 @@ public class MeleeEnemy : MonoBehaviour
     }
     void Update()
     {
-        AimingHandler();
+       // AimingHandler();
         if (m_EnemyHP <= 0) 
-        { 
-            Die();
+        {
+            m_Animator.SetTrigger("Dead");
+            m_IsEnemyDead = true;
+            m_CanMove = false;
+            Destroy(GetComponent<Collider2D>());
+            Destroy(GetComponent<Rigidbody2D>());
         }
     }
     //Drop system=========================================================
@@ -58,8 +62,8 @@ public class MeleeEnemy : MonoBehaviour
     public void TakeDamage(int DMG)
     {
         m_EnemyHP -= DMG;
-        m_Animator.SetTrigger("GotHit");
-        m_HealthBar.SetHealth(m_EnemyHP, m_StartingHP);
+        m_Animator.SetTrigger("Hit");
+        //m_HealthBar.SetHealth(m_EnemyHP, m_StartingHP);
     }
     //==================ice dmg + Slow====================================
     public void TakeIceDamage(int HitDmg, int SlowAmount, int SlowTime)
@@ -110,18 +114,10 @@ public class MeleeEnemy : MonoBehaviour
         }
         m_OverTimeCoroutineIsRunning = false;
     }
-    private void Die()
+    public void Die()
     {
-        if (m_IsEnemyDead == false)
-        {
-            m_IsEnemyDead = true;
-            m_CanMove = false;
-            m_Animator.SetTrigger("IsDead");
-            Destroy(GetComponent<Collider2D>());
-            Destroy(GetComponent<Rigidbody2D>());
-            Destroy(gameObject, 0.6f);
-            DropSysteme();
-        }
+        Destroy(gameObject, 1f);
+        //DropSysteme();
     }
     //====================================================================
 
@@ -149,7 +145,7 @@ public class MeleeEnemy : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        MoveTowardPlayer(m_Movement);
+        //MoveTowardPlayer(m_Movement);
     }
     private void MoveTowardPlayer(Vector2 Direction)
     {

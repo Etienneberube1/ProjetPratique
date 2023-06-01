@@ -24,7 +24,7 @@ public class StarterGunAmmo : MonoBehaviour
         }
         else if (HitInfo.gameObject.tag == "MeleeEnemy")
         {
-            MeleeEnemy m_Enemy = HitInfo.GetComponent<MeleeEnemy>();
+            SpearGoblin m_Enemy = HitInfo.GetComponent<SpearGoblin>();
             m_Enemy.TakeDamage(m_BulletDMG);
             StartCoroutine(m_Enemy.HitCoroutine());
 
