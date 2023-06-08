@@ -11,8 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform m_Hand;
     [SerializeField] private Transform m_WeaponSpawnOffset;
     [HideInInspector]public int m_StartingPlayerHP;
-    [SerializeField] private int m_CrystalCollected = 0;
-    [SerializeField] private int m_KnockBackForce = 2;
+    private int m_CrystalCollected = 0;
 
     private float m_HorizontalMouvement;
     private Rigidbody2D m_Body2D;
@@ -85,7 +84,7 @@ public class Player : MonoBehaviour
     public void CrystalAdded(int CrystalAmount)
     {
         m_CrystalCollected += CrystalAmount;
-        UIManager.Instance.CrystalChange(CrystalAmount);
+        UIManager.Instance.CrystalChange(m_CrystalCollected);
     }
     public void TakeDamage(int DMG)
     {
@@ -117,12 +116,11 @@ public class Player : MonoBehaviour
         {
             velocity.x = m_HorizontalMouvement * m_Speed;
             m_Body2D.velocity = velocity;
-        }
-
-        if (m_HorizontalMouvement > 0 || m_HorizontalMouvement < 0) {
             m_playerIsMoving = true;
+
         }
         else { m_playerIsMoving = false; }
+
 
         if (Input.GetButtonUp("Horizontal") && m_playerIsMoving == true) {
             m_playerIsMoving = false;
@@ -247,18 +245,6 @@ public class Player : MonoBehaviour
         GameObject NewWeapon = Instantiate(WeaponType, m_WeaponSpawnOffset.transform.position, m_Hand.rotation);
         NewWeapon.transform.parent = m_Hand;
         m_WeaponPrefab = NewWeapon;
-    }
-
-    public void KnockBack()
-    {
-        if (m_SpriteRenderer.flipX == true)
-        {
-            m_Body2D.AddForce(Vector2.right * m_KnockBackForce, ForceMode2D.Impulse);
-        }
-        else if(m_SpriteRenderer.flipX == false)
-        {
-            m_Body2D.AddForce(Vector2.left * m_KnockBackForce, ForceMode2D.Impulse);
-        }
     }
     //===========================================================================
 }

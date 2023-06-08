@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3543668315016498220}
   - component: {fileID: -1020287402664476711}
   - component: {fileID: 5170480752920548133}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Isometric Diamond
   m_TagString: Crystal
   m_Icon: {fileID: 0}

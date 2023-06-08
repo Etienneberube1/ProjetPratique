@@ -7,8 +7,9 @@ public class Crystal : MonoBehaviour
     private Rigidbody2D m_RigidBody2D;
     private void Start()
     {
+        int randomForce = Random.Range(5, 9);
         m_RigidBody2D = GetComponent<Rigidbody2D>();
-        m_RigidBody2D.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+        m_RigidBody2D.AddForce(Vector2.up * randomForce, ForceMode2D.Impulse);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

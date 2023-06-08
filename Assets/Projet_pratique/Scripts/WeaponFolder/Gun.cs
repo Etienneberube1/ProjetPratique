@@ -47,7 +47,7 @@ public class Gun : MonoBehaviour
             Rigidbody2D m_Rigidbody2D = Bullet.GetComponent<Rigidbody2D>();
             m_Rigidbody2D.AddForce(FirePoint.right * m_BulletForce, ForceMode2D.Impulse);
             UIBulletManager();
-            player.KnockBack();
+
         }
     }
     public void UIBulletManager()

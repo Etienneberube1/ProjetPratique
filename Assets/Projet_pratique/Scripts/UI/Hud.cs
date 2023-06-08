@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class Hud : MonoBehaviour
 {
-    [SerializeField] private TMP_Text Ammo_Text;
+    [SerializeField] private Text Ammo_Text;
     [SerializeField] private TMP_Text HP_Text;
     [SerializeField] private Image m_FadeImage;
     [SerializeField] private TMP_Text m_Crystal_Text;
