@@ -22,7 +22,7 @@ public class StarterGunAmmo : MonoBehaviour
         m_Animator.SetTrigger("Impact");
         if (HitInfo.gameObject.tag == "Enemy")
         {
-            RollyPolly enemy = HitInfo.GetComponent<RollyPolly>();
+            Roller enemy = HitInfo.GetComponent<Roller>();
             enemy.TakeDamage(m_BulletDMG);
         }
         else if (HitInfo.gameObject.tag == "MeleeEnemy")

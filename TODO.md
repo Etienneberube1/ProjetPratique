@@ -2,7 +2,6 @@
 
 - [x] make jump feel smooth
 - [x] wall jump + slide on wall
-- [] maybe slide??
 
 
 # World stuff
@@ -16,19 +15,18 @@
 
 # Enemy
 
-- [] Drop gold for shop 
+- [x] Drop gold for shop 
 - [] Drop Ammo for weapon
 - [] rare drop small heal
  
  ## Enemy behaviour
 
-	- [] one flying enemy 
-	- [] some melee type enemy
-	- [] wait and strike enemy 
+	- [x] one flying enemy 
+	- [x] some melee type enemy
 
 # UI stuff 
 
-- [] show curency in HUD
+- [x] show curency in HUD
 - [] show equip weapon in HUB
 - [] change heal for heart (1 hit lose half)
 

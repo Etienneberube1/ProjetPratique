@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
     private bool m_playerIsMoving = false;
 
     //variable for the jump
+    [Space(10)]
+    [Header("-----------------Normal Jump-----------------")]
+    [Space(10)]
+
     [SerializeField] private float m_JumpForce = 3f;
     [SerializeField] private float m_JumpTime;
     [SerializeField] private LayerMask m_GroundLayer;
@@ -31,6 +35,10 @@ public class Player : MonoBehaviour
     private bool m_IsJumping = false;
 
     // variable for the wall slide and wall jump
+    [Space(10)]
+    [Header("-----------------Wall Jump-----------------")]
+    [Space(10)]
+
     [SerializeField] private LayerMask m_WallLayer;
     [SerializeField] private Transform m_WallCheck;
     [SerializeField]private float m_WallSlideSpeed = 2f;
@@ -117,7 +125,6 @@ public class Player : MonoBehaviour
             velocity.x = m_HorizontalMouvement * m_Speed;
             m_Body2D.velocity = velocity;
             m_playerIsMoving = true;
-
         }
         else { m_playerIsMoving = false; }
 
