@@ -21,8 +21,8 @@
  
  ## Enemy behaviour
 
-	- [x] one flying enemy 
-	- [x] some melee type enemy
+- [x] one flying enemy 
+- [x] some melee type enemy
 
 # UI stuff 
 
@@ -32,8 +32,8 @@
 
 # Boss 
 
-- [] Cinematique before fight
-
+- [] Cinematique before boss fight
+- [x] Boss with multiple phase
 # Sound
 
 - [] Small heal sound
