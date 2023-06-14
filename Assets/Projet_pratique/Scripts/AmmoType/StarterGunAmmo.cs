@@ -27,8 +27,18 @@ public class StarterGunAmmo : MonoBehaviour
         }
         else if (HitInfo.gameObject.tag == "MeleeEnemy")
         {
-            SpearGoblin m_Enemy = HitInfo.GetComponent<SpearGoblin>();
-            m_Enemy.TakeDamage(m_BulletDMG);
+            SpearGoblin Enemy = HitInfo.GetComponent<SpearGoblin>();
+            Enemy.TakeDamage(m_BulletDMG);
+        }
+        else if (HitInfo.gameObject.tag == "Pig")
+        {
+            Pig pig = HitInfo.GetComponent<Pig>();
+            pig.TakeDamage(m_BulletDMG);
+        }
+        else if (HitInfo.gameObject.tag == "Crystal")
+        {
+            BossShield shieldScript = HitInfo.GetComponentInParent<BossShield>();
+            shieldScript.DamageCrystal(m_BulletDMG);
         }
     }
     public void DestroyObject()

@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Pathfinding;
 public class Roller : MonoBehaviour
 {
     private Animator m_Animator;
     private int m_HP = 100;
     private bool m_IsEnemyDead = false;
-    
+    private AIDestinationSetter m_Target;
+    private GameObject m_Player;
+
     // crystal stuff
     [SerializeField] private GameObject m_CrystalPrefabs;
     private int CrystalSpawned = 0;
@@ -15,6 +17,12 @@ public class Roller : MonoBehaviour
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
+        m_Target = GetComponent<AIDestinationSetter>();
+        m_Player = GameObject.FindGameObjectWithTag("Player");
+        if (m_Player != null)
+        {
+            m_Target.target = m_Player.transform;
+        }
     }
     private void Update()
     {

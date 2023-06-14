@@ -120,19 +120,23 @@ public class Player : MonoBehaviour
 
         m_HorizontalMouvement = Input.GetAxis("Horizontal");
         Vector2 velocity = m_Body2D.velocity;
-        if (m_HorizontalMouvement > 0 || m_HorizontalMouvement < 0)
+        if (m_HorizontalMouvement != 0)
         {
             velocity.x = m_HorizontalMouvement * m_Speed;
             m_Body2D.velocity = velocity;
             m_playerIsMoving = true;
         }
-        else { m_playerIsMoving = false; }
-
+        else { 
+            m_playerIsMoving = false;
+            velocity.x = 0f;
+            m_Body2D.velocity = velocity;
+        }
 
         if (Input.GetButtonUp("Horizontal") && m_playerIsMoving == true) {
             m_playerIsMoving = false;
             m_Animator.SetTrigger("StopRun");
         }
+
         // Player jump
         m_Grounded = Physics2D.Raycast(m_GroundCheck.position, Vector2.down, 0.1f, m_GroundLayer);
         if (Input.GetKeyDown(KeyCode.Space) && m_Grounded) {
