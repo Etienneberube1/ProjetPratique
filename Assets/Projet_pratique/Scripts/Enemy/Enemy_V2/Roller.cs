@@ -4,20 +4,33 @@ using UnityEngine;
 using Pathfinding;
 public class Roller : MonoBehaviour
 {
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int CurrentHealth;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private float DetectionRange = 1.5f;
+    [SerializeField] private int Dmg = 15;
     private Animator m_Animator;
-    private int m_HP = 100;
     private bool m_IsEnemyDead = false;
     private AIDestinationSetter m_Target;
-    private GameObject m_Player;
+    private AIPath m_AiPathScript;
 
+    private GameObject m_Player;
+    private float DistanceBetweenPlayer;
     // crystal stuff
     [SerializeField] private GameObject m_CrystalPrefabs;
     private int CrystalSpawned = 0;
 
     private void Start()
     {
+        // setting hp 
+        CurrentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
+        m_AiPathScript = GetComponent<AIPath>();
         m_Animator = GetComponent<Animator>();
         m_Target = GetComponent<AIDestinationSetter>();
+
+        // will change later with playermanager
         m_Player = GameObject.FindGameObjectWithTag("Player");
         if (m_Player != null)
         {
@@ -26,7 +39,8 @@ public class Roller : MonoBehaviour
     }
     private void Update()
     {
-        if (m_HP <= 0)
+        Attack();
+        if (CurrentHealth <= 0)
         {
             m_Animator.SetTrigger("Dead");
             m_IsEnemyDead = true;
@@ -35,11 +49,28 @@ public class Roller : MonoBehaviour
             Destroy(GetComponent<Rigidbody2D>());
         }
     }
+    private void Attack()
+    {
+        DistanceBetweenPlayer = Vector3.Distance(transform.position, m_Player.transform.position);
+        if (DistanceBetweenPlayer <= DetectionRange)
+        {
+            m_AiPathScript.maxSpeed = 6f;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            DestroyRoller();
+            Player player = collision.gameObject.GetComponent<Player>();
+            player.TakeDamage(Dmg);
+        }
+    }
     public void TakeDamage(int DMG)
     {
-        m_HP -= DMG;
+        CurrentHealth -= DMG;
         m_Animator.SetTrigger("Hit");
-        //m_HealthBar.SetHealth(m_EnemyHP, m_StartingHP);
+        healthBar.SetHealth(CurrentHealth);
     }
     private IEnumerator SpawnCrystal()
     {

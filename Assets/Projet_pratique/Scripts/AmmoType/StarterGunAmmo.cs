@@ -5,6 +5,7 @@ using UnityEngine;
 public class StarterGunAmmo : MonoBehaviour
 {
     [SerializeField] private int m_BulletDMG = 20;
+
     private Animator m_Animator;
     private Rigidbody2D m_Body2D;
     private void Start()

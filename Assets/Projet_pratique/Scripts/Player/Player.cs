@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] public int m_PlayerHP = 100;
     [SerializeField] private Transform m_Hand;
     [SerializeField] private Transform m_WeaponSpawnOffset;
+   
     [HideInInspector]public int m_StartingPlayerHP;
     private int m_CrystalCollected = 0;
 
@@ -110,9 +111,6 @@ public class Player : MonoBehaviour
         Destroy(m_Body2D);
     }
     //==============================================================================
-
-
-
     //Player Control================================================================
     private void PlayerControl()
     {
@@ -175,12 +173,10 @@ public class Player : MonoBehaviour
             if (m_Grounded == true && m_playerIsMoving == false) {
                 m_Animator.SetTrigger("HitGround");
             }
-            
         }
     }
     public void Flip()
     {
-
         Vector3 localScale = m_WallCheckFlipPoint.transform.localScale;
         localScale.x *= -1;
         m_WallCheckFlipPoint.transform.localScale = localScale;
@@ -200,8 +196,8 @@ public class Player : MonoBehaviour
         else { m_IsWallSliding = false; }
 
         // changing the animator if the player is on a wall or not
-        if (IsWalled()) { m_Animator.SetBool("isOnWall", true);}
-        else { m_Animator.SetBool("isOnWall", false); }
+        //if (IsWalled()) { m_Animator.SetBool("isOnWall", true);}
+        //else { m_Animator.SetBool("isOnWall", false); }
 
     }
 

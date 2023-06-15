@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class SpearGoblin : MonoBehaviour
 {
-    [SerializeField] private float m_EnemyHP = 100f;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int CurrentHealth;
+    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private int _Dmg = 20;
+
     [SerializeField] private float m_CantMoveTimer = 0.75f;
     [SerializeField] private float m_Speed = 1f;
     [SerializeField] private Transform m_GroundCheck;
 
-    private float m_StartingHP;
+    [SerializeField] private LayerMask m_PlayerLayer;
+    [SerializeField] private Transform m_PlayerCheck;
+    [SerializeField] private float m_PlayerCheckRadius;
+
+
     private bool m_IsEnemyDead = false;
     private bool m_CanMove = true;
     private bool m_IsMovingRight = true;
     private Vector2 m_Direction;
+
+    private GameObject m_Player;
+    private float DistanceBetweenPlayer;
 
     private SpriteRenderer m_SpriteRender;
     private Animator m_Animator;
@@ -26,7 +37,13 @@ public class SpearGoblin : MonoBehaviour
 
     void Start()
     {
-        m_StartingHP = m_EnemyHP;
+        // will change later with playermanager
+        m_Player = GameObject.FindGameObjectWithTag("Player");
+
+        // setting hp stuff
+        CurrentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
         m_RigidBody2D = GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();
         m_SpriteRender = GetComponent<SpriteRenderer>();
@@ -34,7 +51,8 @@ public class SpearGoblin : MonoBehaviour
     }
     void Update()
     {
-        if (m_EnemyHP <= 0)
+        Attack();
+        if (CurrentHealth <= 0)
         {
             StartCoroutine(SpawnCrystal());
             m_Animator.SetTrigger("Dead");
@@ -47,16 +65,55 @@ public class SpearGoblin : MonoBehaviour
         if (m_CanMove == true)
         {
             Movement();
+            m_Animator.SetBool("Run", true);
         }
+        else { m_Animator.SetBool("Run", false); }
+    }
+    private void Attack()
+    {
+        if (PlayerCheck())
+        {
+            Debug.Log("Player is in Radius");
+            m_Animator.SetTrigger("attack");
+        }
+        DebugDrawCircle(m_PlayerCheck.position, m_PlayerCheckRadius, Color.blue);
+    }
+    private bool PlayerCheck()
+    {
+        return Physics2D.OverlapCircle(m_PlayerCheck.position, m_PlayerCheckRadius, m_PlayerLayer);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player player = collision.GetComponent<Player>();
+            player.TakeDamage(_Dmg);
+        }
+    }
+    private void DebugDrawCircle(Vector2 center, float radius, Color color)
+    {
+        const float deltaTheta = 0.1f;
+        float theta = 0f;
+        Vector2 previousPoint = center + new Vector2(radius * Mathf.Cos(theta), radius * Mathf.Sin(theta));
+
+        for (theta = deltaTheta; theta < Mathf.PI * 2f; theta += deltaTheta)
+        {
+            Vector2 point = center + new Vector2(radius * Mathf.Cos(theta), radius * Mathf.Sin(theta));
+            Debug.DrawLine(previousPoint, point, color);
+            previousPoint = point;
+        }
+
+        // Draw the last segment to close the circle
+        Debug.DrawLine(previousPoint, center + new Vector2(radius, 0f), color);
+    }
     private void Movement()
     {
 
         Vector2 movement = m_RigidBody2D.velocity;
         movement = m_Direction * m_Speed;
-        RaycastHit2D groundinfo = Physics2D.Raycast(m_GroundCheck.position, Vector2.down, 2f);
-        if (!groundinfo.collider)
+        RaycastHit2D groundInfo = Physics2D.Raycast(m_GroundCheck.position, Vector2.down, 2f);
+        if (!groundInfo.collider)
         {
             if (m_IsMovingRight)
             {
@@ -72,13 +129,11 @@ public class SpearGoblin : MonoBehaviour
         }
         m_RigidBody2D.velocity = movement;
     }
-
-
     public void TakeDamage(int DMG)
     {
-        m_EnemyHP -= DMG;
+        CurrentHealth -= DMG;
         m_Animator.SetTrigger("Hit");
-        //m_HealthBar.SetHealth(m_EnemyHP, m_StartingHP);
+        healthBar.SetHealth(CurrentHealth);
     }
     private IEnumerator SpawnCrystal()
     {
@@ -90,14 +145,14 @@ public class SpearGoblin : MonoBehaviour
             CrystalSpawned++;
         }
     }
-    public void DestroyEnemy()
-    {
-        Destroy(gameObject, 1f);
-    }
     public IEnumerator HitCoroutine()
     {
         m_CanMove = false;
         yield return new WaitForSeconds(m_CantMoveTimer);
         m_CanMove = true;
+    }
+    public void DestroyEnemy()
+    {
+        Destroy(gameObject, 1f);
     }
 }
