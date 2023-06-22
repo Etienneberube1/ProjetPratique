@@ -32,10 +32,7 @@ public class UIManager : MonoBehaviour
     {
         OnAmmoChange?.Invoke(CurrentAmmo, MaxAmmo);
     }
-    public void IsPlayerDead(bool IsPlayerDead)
-    {
-        OnPlayerDeath?.Invoke(IsPlayerDead);
-    }
+
     public void CrystalChange(int CrystalAmount)
     {
         OnCrystalChange?.Invoke(CrystalAmount);

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class Player : MonoBehaviour
 {
     [SerializeField] private float m_Speed = 5f;
@@ -262,4 +261,8 @@ public class Player : MonoBehaviour
         m_WeaponPrefab = NewWeapon;
     }
     //===========================================================================
+
+
+
+
 }

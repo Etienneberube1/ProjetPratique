@@ -9,21 +9,19 @@ using UnityEngine.SceneManagement;
 public class Hud : MonoBehaviour
 {
     [SerializeField] private Text Ammo_Text;
-    [SerializeField] private TMP_Text HP_Text;
-    [SerializeField] private Image m_FadeImage;
-    [SerializeField] private TMP_Text m_Crystal_Text;
+    [SerializeField] private Text HP_Text;
+    [SerializeField] private Text m_Crystal_Text;
     private Animator m_Animator;
     private void Start()
     {
         UIManager.Instance.OnAmmoChange += OnAmmoChange;
         UIManager.Instance.OnHPChange += OnHPChange;
-        UIManager.Instance.OnPlayerDeath += FadeToBlack;
         UIManager.Instance.OnCrystalChange += OnCrystalChange;
         m_Animator = GetComponent<Animator>();
     }
     private void OnCrystalChange(int CrystalAmount)
     {
-        m_Crystal_Text.text = ($": {(CrystalAmount)}");
+        m_Crystal_Text.text = ($"{(CrystalAmount)}");
     }
     private void OnAmmoChange(int CurrentAmmo, int MaxAmmo)
     {
@@ -32,7 +30,7 @@ public class Hud : MonoBehaviour
 
     private void OnHPChange(int CurrentHP)
     {
-        HP_Text.text = ($"HP: {(CurrentHP)}");
+        HP_Text.text = ($"{(CurrentHP)}");
     }
     private void FadeToBlack(bool IsPlayerDead)
     {
@@ -49,6 +47,5 @@ public class Hud : MonoBehaviour
     {
         UIManager.Instance.OnHPChange -= OnHPChange;
         UIManager.Instance.OnAmmoChange -= OnAmmoChange;
-        UIManager.Instance.OnPlayerDeath -= FadeToBlack;
     }
 }

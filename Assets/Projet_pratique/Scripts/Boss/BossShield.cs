@@ -16,7 +16,6 @@ public class BossShield : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(isShieldActive);
         if (isShieldActive == true)
         {
             Crystal_1.gameObject.SetActive(true);

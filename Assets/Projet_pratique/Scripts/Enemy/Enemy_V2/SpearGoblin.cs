@@ -42,7 +42,6 @@ public class SpearGoblin : MonoBehaviour
         if (m_Player != null)
         {
             m_PlayerScript = m_Player.GetComponent<Player>();
-
         }
 
         // setting hp stuff
@@ -59,7 +58,6 @@ public class SpearGoblin : MonoBehaviour
         if (m_PlayerScript.PlayerHP <= 0)
         {
             Destroy(gameObject);
-
         }
         Attack();
         if (CurrentHealth <= 0)
@@ -84,11 +82,8 @@ public class SpearGoblin : MonoBehaviour
     {
         if (PlayerCheck())
         {
-            Debug.Log("Player is in Radius");
             m_Animator.SetTrigger("attack");
         }
-        
-
         DebugDrawCircle(m_PlayerCheck.position, m_PlayerCheckRadius, Color.blue);
     }
     public void PlayAttackSound()

@@ -17,12 +17,11 @@ public class Roller : MonoBehaviour
     private AIPath m_AiPathScript;
     private Player m_PlayerScript;
     private GameObject m_Player;
-    private float DistanceBetweenPlayer;
+    private float DistanceBetweenPlayer = 20;
 
     // crystal stuff
     [SerializeField] private GameObject m_CrystalPrefabs;
     private int CrystalSpawned = 0;
-
     private void Start()
     {
         // setting hp 
@@ -38,11 +37,12 @@ public class Roller : MonoBehaviour
         {
             m_Target.target = m_Player.transform;
             m_PlayerScript = m_Player.GetComponent<Player>();
-
         }
     }
     private void Update()
     {
+        DistanceBetweenPlayer = Vector3.Distance(transform.position, m_Player.transform.position);
+        Attack();
         if (m_PlayerScript.PlayerHP <= 0 && m_Player != null)
         {
             Destroy(gameObject);
@@ -52,11 +52,10 @@ public class Roller : MonoBehaviour
         {
             m_AiPathScript.canMove = false;
         }
-        else
-        {
-            m_AiPathScript.canMove = true;
-        }
-        Attack();
+        else { m_AiPathScript.canMove = true; }
+
+
+        
         if (CurrentHealth <= 0)
         {
             m_Animator.SetTrigger("Dead");
@@ -70,7 +69,6 @@ public class Roller : MonoBehaviour
     {
         if (m_Player != null)
         {
-            DistanceBetweenPlayer = Vector3.Distance(transform.position, m_Player.transform.position);
             if (DistanceBetweenPlayer <= DetectionRange)
             {
                 m_AiPathScript.maxSpeed = 6f;
