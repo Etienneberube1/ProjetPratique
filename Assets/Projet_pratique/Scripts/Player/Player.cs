@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] public int m_PlayerHP = 100;
     [SerializeField] private Transform m_Hand;
     [SerializeField] private Transform m_WeaponSpawnOffset;
-   
+    [SerializeField] private LevelLoader m_LevelLoader;
+    public float PlayerHP => m_PlayerHP;
+
     [HideInInspector]public int m_StartingPlayerHP;
     private int m_CrystalCollected = 0;
 
@@ -73,7 +75,7 @@ public class Player : MonoBehaviour
 
         if (m_PlayerHP <= 0) { 
             m_PlayerHP = 0;
-            Die();
+            m_Animator.SetTrigger("Dead");
         }
     }
     //Taking DMG + Die + Heal=====================================================
@@ -100,15 +102,17 @@ public class Player : MonoBehaviour
         m_PlayerHP -= DMG;
         UIManager.Instance.LifeChange(m_PlayerHP);
         m_Animator.SetTrigger("GotHit");
-        if (m_PlayerHP <= 0) {
-            Die();
-            m_Animator.SetTrigger("Dead");
-        }
+        AudioManager.Instance.PlaySFX(AudioManager.EAudio.PlayerBeingHit);
     }
-    private void Die()
+
+    public void PlayerDeadAudio()
     {
-        UIManager.Instance.IsPlayerDead(true);
-        Destroy(m_Body2D);
+        m_LevelLoader.PlayButton();
+        AudioManager.Instance.PlaySFX(AudioManager.EAudio.PlayerDeathSound);
+    }
+    public void DestroyPlayer()
+    {
+        Destroy(gameObject);
     }
     //==============================================================================
     //Player Control================================================================
@@ -237,7 +241,11 @@ public class Player : MonoBehaviour
 
 
     //==========================================================================
-    
+    public void PlayFootStep()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.EAudio.FootStepSound);
+    }
+
     //Pickup New Gun============================================================
     public void OnChangeGun(GameObject WeaponType)
     {

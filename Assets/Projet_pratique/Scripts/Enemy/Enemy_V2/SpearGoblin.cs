@@ -29,7 +29,7 @@ public class SpearGoblin : MonoBehaviour
     private SpriteRenderer m_SpriteRender;
     private Animator m_Animator;
     private Rigidbody2D m_RigidBody2D;
-
+    private Player m_PlayerScript;
     // crystal stuff
     [SerializeField] private GameObject m_CrystalPrefabs;
     private int CrystalSpawned = 0;
@@ -39,6 +39,11 @@ public class SpearGoblin : MonoBehaviour
     {
         // will change later with playermanager
         m_Player = GameObject.FindGameObjectWithTag("Player");
+        if (m_Player != null)
+        {
+            m_PlayerScript = m_Player.GetComponent<Player>();
+
+        }
 
         // setting hp stuff
         CurrentHealth = maxHealth;
@@ -51,6 +56,11 @@ public class SpearGoblin : MonoBehaviour
     }
     void Update()
     {
+        if (m_PlayerScript.PlayerHP <= 0)
+        {
+            Destroy(gameObject);
+
+        }
         Attack();
         if (CurrentHealth <= 0)
         {
@@ -69,6 +79,7 @@ public class SpearGoblin : MonoBehaviour
         }
         else { m_Animator.SetBool("Run", false); }
     }
+     
     private void Attack()
     {
         if (PlayerCheck())
@@ -76,7 +87,13 @@ public class SpearGoblin : MonoBehaviour
             Debug.Log("Player is in Radius");
             m_Animator.SetTrigger("attack");
         }
+        
+
         DebugDrawCircle(m_PlayerCheck.position, m_PlayerCheckRadius, Color.blue);
+    }
+    public void PlayAttackSound()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.EAudio.AttackGoblin); 
     }
     private bool PlayerCheck()
     {
@@ -134,6 +151,7 @@ public class SpearGoblin : MonoBehaviour
         CurrentHealth -= DMG;
         m_Animator.SetTrigger("Hit");
         healthBar.SetHealth(CurrentHealth);
+        AudioManager.Instance.PlaySFX(AudioManager.EAudio.HitSound);
     }
     private IEnumerator SpawnCrystal()
     {
@@ -153,6 +171,7 @@ public class SpearGoblin : MonoBehaviour
     }
     public void DestroyEnemy()
     {
-        Destroy(gameObject, 1f);
+        AudioManager.Instance.PlaySFX(AudioManager.EAudio.EnemyDying);
+        Destroy(gameObject, 0.2f);
     }
 }

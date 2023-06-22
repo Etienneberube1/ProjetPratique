@@ -20,29 +20,21 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 983766972386657159, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: 983766972386657159, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     - time: 0.083333336
-      value: {fileID: -1307839735610630088, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: -1307839735610630088, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     - time: 0.16666667
-      value: {fileID: 2546185081478876880, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: 2546185081478876880, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     - time: 0.25
-      value: {fileID: 8639178436130346531, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: 8639178436130346531, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     - time: 0.33333334
-      value: {fileID: -5129553445562544607, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: -5129553445562544607, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     - time: 0.41666666
-      value: {fileID: 8952742481552399170, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: 8952742481552399170, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     - time: 0.5
-      value: {fileID: -7233524524033645741, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: -7233524524033645741, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     - time: 0.5833333
-      value: {fileID: 4158763052489982195, guid: 7cf2c0319a173b042a629767905f569b,
-        type: 3}
+      value: {fileID: 4158763052489982195, guid: 7cf2c0319a173b042a629767905f569b, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -94,4 +86,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.16666667
+    functionName: PlayFootStep
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5833333
+    functionName: PlayFootStep
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

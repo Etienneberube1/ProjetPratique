@@ -40,6 +40,8 @@ public class StarterGunAmmo : MonoBehaviour
         {
             BossShield shieldScript = HitInfo.GetComponentInParent<BossShield>();
             shieldScript.DamageCrystal(m_BulletDMG);
+            Destroy(gameObject);
+
         }
     }
     public void DestroyObject()

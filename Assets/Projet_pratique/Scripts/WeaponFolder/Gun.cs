@@ -42,6 +42,7 @@ public class Gun : MonoBehaviour
     {
         if (CanShoot == true)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.EAudio.LaserGunSound);
             m_Animator.SetTrigger("Shoot");
             GameObject Bullet = Instantiate(BulletPrefab, FirePoint.transform.position, FirePoint.transform.rotation);
             Rigidbody2D m_Rigidbody2D = Bullet.GetComponent<Rigidbody2D>();

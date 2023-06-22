@@ -17,6 +17,7 @@ public class Crystal : MonoBehaviour
         {
             Player player = collision.gameObject.GetComponent<Player>();
             player.CrystalAdded(1);
+            AudioManager.Instance.PlaySFX(AudioManager.EAudio.CollectCoin);
             Destroy(gameObject);
         }
 

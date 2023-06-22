@@ -36,15 +36,15 @@
 - [x] Boss with multiple phase
 # Sound
 
-- [] Small heal sound
-- [] Big Heal sound
+- [x] Small heal sound
+- [x] Big Heal sound
 - [] Switch gun sound
-- [] BackGround sound 
+- [x] BackGround sound 
 - [] door sound
 
 ### all sound like hit, shoot, die, etc..
 
-	- [] all sound for enemy 
-	- [] all sound for player
-	- [] all sound for boss
+	- [x] all sound for enemy 
+	- [x] all sound for player
+	- [x] all sound for boss
 
