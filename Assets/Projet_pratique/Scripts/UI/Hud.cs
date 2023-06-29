@@ -32,13 +32,6 @@ public class Hud : MonoBehaviour
     {
         HP_Text.text = ($"{(CurrentHP)}");
     }
-    private void FadeToBlack(bool IsPlayerDead)
-    {
-        if (IsPlayerDead == true)
-        {
-            m_Animator.SetTrigger("FadeToBlack");
-        }
-    }
     public void ChangeScene()
     {
         SceneManager.LoadScene("GameOver");
@@ -47,5 +40,6 @@ public class Hud : MonoBehaviour
     {
         UIManager.Instance.OnHPChange -= OnHPChange;
         UIManager.Instance.OnAmmoChange -= OnAmmoChange;
+        UIManager.Instance.OnCrystalChange -= OnCrystalChange;
     }
 }

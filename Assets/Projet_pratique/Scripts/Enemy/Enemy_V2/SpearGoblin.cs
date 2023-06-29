@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpearGoblin : MonoBehaviour
 {
@@ -29,21 +31,29 @@ public class SpearGoblin : MonoBehaviour
     private SpriteRenderer m_SpriteRender;
     private Animator m_Animator;
     private Rigidbody2D m_RigidBody2D;
-    private Player m_PlayerScript;
+    private int playerHP;
+    private Player _player;
     // crystal stuff
     [SerializeField] private GameObject m_CrystalPrefabs;
     private int CrystalSpawned = 0;
-
-
+    private void GetPlayerRef()
+    {
+        _player = PlayerManager.Instance.GetPlayer();
+        if (_player != null)
+        {
+            OnPlayerSet(_player);
+        }
+        PlayerManager.Instance.PlayerData -= OnPlayerSet;
+        PlayerManager.Instance.PlayerData += OnPlayerSet;
+    }
+    private void OnPlayerSet(Player player)
+    {
+        _player = player;
+        playerHP = player.m_PlayerHP;
+    }
     void Start()
     {
-        // will change later with playermanager
-        m_Player = GameObject.FindGameObjectWithTag("Player");
-        if (m_Player != null)
-        {
-            m_PlayerScript = m_Player.GetComponent<Player>();
-        }
-
+        GetPlayerRef();
         // setting hp stuff
         CurrentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -55,7 +65,7 @@ public class SpearGoblin : MonoBehaviour
     }
     void Update()
     {
-        if (m_PlayerScript.PlayerHP <= 0)
+        if (playerHP <= 0)
         {
             Destroy(gameObject);
         }
@@ -77,7 +87,12 @@ public class SpearGoblin : MonoBehaviour
         }
         else { m_Animator.SetBool("Run", false); }
     }
-     
+
+    private void GetPlayerHp(int playerHp)
+    {
+        playerHP = playerHp;
+    }
+
     private void Attack()
     {
         if (PlayerCheck())
@@ -168,5 +183,10 @@ public class SpearGoblin : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioManager.EAudio.EnemyDying);
         Destroy(gameObject, 0.2f);
+    }
+
+    private void OnDestroy()
+    {
+        PlayerManager.Instance.PlayerData -= OnPlayerSet;
     }
 }

@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using Random = UnityEngine.Random;
+
 public class Roller : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 100;
@@ -15,35 +18,43 @@ public class Roller : MonoBehaviour
 
     private AIDestinationSetter m_Target;
     private AIPath m_AiPathScript;
-    private Player m_PlayerScript;
-    private GameObject m_Player;
+    private int PlayerHP;
+    private Player _player;
     private float DistanceBetweenPlayer = 20;
 
     // crystal stuff
     [SerializeField] private GameObject m_CrystalPrefabs;
     private int CrystalSpawned = 0;
+
+    private void GetPlayerRef()
+    {
+        _player = PlayerManager.Instance.GetPlayer();
+        if (_player != null)
+        {
+            OnPlayerSet(_player);
+        }
+        PlayerManager.Instance.PlayerData -= OnPlayerSet;
+        PlayerManager.Instance.PlayerData += OnPlayerSet;
+    }
+
     private void Start()
     {
+        GetPlayerRef();
         // setting hp 
         CurrentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-        // will change later with playermanager
-        m_Player = GameObject.FindGameObjectWithTag("Player");
+
         m_AiPathScript = GetComponent<AIPath>();
         m_Animator = GetComponent<Animator>();
         m_Target = GetComponent<AIDestinationSetter>();
 
-        if (m_Player != null)
-        {
-            m_Target.target = m_Player.transform;
-            m_PlayerScript = m_Player.GetComponent<Player>();
-        }
+        m_Target.target = _player.transform;
     }
     private void Update()
     {
-        DistanceBetweenPlayer = Vector3.Distance(transform.position, m_Player.transform.position);
+        DistanceBetweenPlayer = Vector3.Distance(_player.transform.position, transform.position);
         Attack();
-        if (m_PlayerScript.PlayerHP <= 0 && m_Player != null)
+        if (PlayerHP <= 0)
         {
             Destroy(gameObject);
         }
@@ -55,7 +66,7 @@ public class Roller : MonoBehaviour
         else { m_AiPathScript.canMove = true; }
 
 
-        
+
         if (CurrentHealth <= 0)
         {
             m_Animator.SetTrigger("Dead");
@@ -67,14 +78,10 @@ public class Roller : MonoBehaviour
     }
     private void Attack()
     {
-        if (m_Player != null)
+        if (DistanceBetweenPlayer <= DetectionRange)
         {
-            if (DistanceBetweenPlayer <= DetectionRange)
-            {
-                m_AiPathScript.maxSpeed = 6f;
-            }
+            m_AiPathScript.maxSpeed = 6f;
         }
-        
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -107,5 +114,13 @@ public class Roller : MonoBehaviour
         AudioManager.Instance.PlaySFX(AudioManager.EAudio.EnemyDying);
         Destroy(gameObject, 0.2f);
     }
-
+    private void OnPlayerSet(Player player)
+    {
+        _player = player;
+        PlayerHP = player.m_PlayerHP;
+    }
+    private void OnDestroy()
+    {
+        PlayerManager.Instance.PlayerData -= OnPlayerSet;
+    }
 }

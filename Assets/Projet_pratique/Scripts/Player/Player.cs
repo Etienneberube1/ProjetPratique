@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform m_Hand;
     [SerializeField] private Transform m_WeaponSpawnOffset;
     [SerializeField] private LevelLoader m_LevelLoader;
-    public float PlayerHP => m_PlayerHP;
 
     [HideInInspector]public int m_StartingPlayerHP;
     private int m_CrystalCollected = 0;
@@ -54,9 +53,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform m_WallCheckFlipPoint;
     public bool m_WallCheckFlip;
 
-
     void Start()
     {
+        PlayerManager.Instance.PlayerRegister(this);
         UIManager.Instance.LifeChange(m_PlayerHP);
         m_StartingPlayerHP = m_PlayerHP;
 
@@ -77,6 +76,17 @@ public class Player : MonoBehaviour
             m_Animator.SetTrigger("Dead");
         }
     }
+
+    private void PlayerPosReturn(Transform playerPos)
+    {
+        playerPos = gameObject.transform;
+    }
+
+    private void PlayerHealthReturn(int playerHealth)
+    {
+        playerHealth = m_PlayerHP;
+    }
+
     //Taking DMG + Die + Heal=====================================================
     public void Heal(int Heal)
     {
@@ -91,6 +101,7 @@ public class Player : MonoBehaviour
             UIManager.Instance.LifeChange(m_PlayerHP);
         }
     }
+    
     public void CrystalAdded(int CrystalAmount)
     {
         m_CrystalCollected += CrystalAmount;
@@ -261,8 +272,5 @@ public class Player : MonoBehaviour
         m_WeaponPrefab = NewWeapon;
     }
     //===========================================================================
-
-
-
 
 }
