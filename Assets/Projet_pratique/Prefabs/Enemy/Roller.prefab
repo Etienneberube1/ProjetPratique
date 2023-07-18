@@ -503,7 +503,7 @@ MonoBehaviour:
   CurrentHealth: 0
   healthBar: {fileID: 3750326627817062805}
   DetectionRange: 1.5
-  MaxDetectionRange: 80
+  MaxDetectionRange: 10
   Dmg: 15
   m_CrystalPrefabs: {fileID: 3481123263893827585, guid: b2f5fb8ff8aceb14494566c40a68011f, type: 3}
 --- !u!1 &3750326629026094151

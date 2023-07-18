@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using EZCameraShake;
 
 public class Gun : MonoBehaviour
 {
@@ -48,7 +48,6 @@ public class Gun : MonoBehaviour
             Rigidbody2D m_Rigidbody2D = Bullet.GetComponent<Rigidbody2D>();
             m_Rigidbody2D.AddForce(FirePoint.right * m_BulletForce, ForceMode2D.Impulse);
             UIBulletManager();
-
         }
     }
     public void UIBulletManager()

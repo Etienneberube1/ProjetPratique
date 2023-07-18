@@ -52,18 +52,22 @@ public class Roller : MonoBehaviour
     }
     private void Update()
     {
-        DistanceBetweenPlayer = Vector3.Distance(_player.transform.position, transform.position);
+
         Attack();
         if (PlayerHP <= 0)
         {
             Destroy(gameObject);
         }
+        DistanceBetweenPlayer = Vector3.Distance(_player.transform.position, transform.position);
 
         if (DistanceBetweenPlayer >= MaxDetectionRange)
         {
             m_AiPathScript.canMove = false;
         }
-        else { m_AiPathScript.canMove = true; }
+        else
+        {
+            m_AiPathScript.canMove = true;
+        }
 
 
 

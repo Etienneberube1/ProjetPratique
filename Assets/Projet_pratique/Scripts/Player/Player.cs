@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;
     private bool m_playerIsMoving = false;
 
-    //variable for the jump
     [Space(10)]
     [Header("-----------------Normal Jump-----------------")]
     [Space(10)]
@@ -35,7 +34,6 @@ public class Player : MonoBehaviour
     private float m_JumptimeCounter;
     private bool m_IsJumping = false;
 
-    // variable for the wall slide and wall jump
     [Space(10)]
     [Header("-----------------Wall Jump-----------------")]
     [Space(10)]
