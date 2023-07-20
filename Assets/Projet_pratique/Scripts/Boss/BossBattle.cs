@@ -42,7 +42,7 @@ public class BossBattle : MonoBehaviour
     {
         SpawnEnemy();
         StartNextStage();
-        FunctionPeriodic.Create(SpawnEnemy, 3f, "SpawnEnemy");
+        FunctionPeriodic.Create(SpawnEnemy, 4f, "SpawnEnemy");
     }
     public void Attack()
     {
